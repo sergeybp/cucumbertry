@@ -1,0 +1,14 @@
+Feature: Login functionality
+
+  Scenario Outline: Login process
+    Given I am on Home page
+    When I type credentials as <userName>/<userPassword>
+    Then Login <status>
+
+    Examples:
+      | userName | userPassword | status    |
+      | Ivan     | 12345        | failure   |
+      | Petr     | qweqwe       | failure   |
+      | epam     | 1234         | succeeded |
+      | Petr3    | qweqwe43     | failure   |
+
