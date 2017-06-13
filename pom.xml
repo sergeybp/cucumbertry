@@ -77,6 +77,13 @@
             <version>6.11</version>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/com.codeborne/phantomjsdriver -->
+        <dependency>
+            <groupId>com.codeborne</groupId>
+            <artifactId>phantomjsdriver</artifactId>
+            <version>1.4.3</version>
+        </dependency>
+
     </dependencies>
 
 

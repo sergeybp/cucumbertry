@@ -4,10 +4,13 @@ import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.phantomjs.PhantomJSDriver;
+import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
@@ -77,17 +80,21 @@ public class Step {
         driver.close();
     }
 
-    private WebDriver driver;
+    private PhantomJSDriver driver;
 
     private void init() {
-        System.setProperty("webdriver.chrome.driver", "/home/sergeybp/chromedriver");
-        driver = new ChromeDriver();
+        System.setProperty("phantomjs.binary.path", "/home/sergeybp/phantomjs");
+        DesiredCapabilities capabilities = DesiredCapabilities.phantomjs();
+        driver = new PhantomJSDriver(capabilities);
     }
 
     private void moveToMainPage(){
+
+
+
         // Moving to epam test site
         driver.navigate().to("https://epam.github.io/JDI/");
-        driver.manage().window().maximize();
+        driver.manage().window().setSize(new Dimension(1920, 1080));
         // Wait for page loading complete
         WebDriverWait wait = new WebDriverWait(driver, 10);
         wait.until(ExpectedConditions.elementToBeClickable(By.className("profile-photo"))).click();
