@@ -3,6 +3,7 @@ Feature: Login functionality
   Scenario Outline: Login process
     Given I am on Home page
     When I type credentials as <userName>/<userPassword>
+    And I press Login button
     Then Login <status>
 
     Examples:

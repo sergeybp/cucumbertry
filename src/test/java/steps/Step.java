@@ -33,24 +33,47 @@ public class Step {
 
     @When("^I type credentials as ([^\\\"]*)/([^\\\"]*)$")
     public void loginExecute(String userName, String userPassword){
+        WebDriverWait wait = new WebDriverWait(driver, 10);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("Login")));
         // Setting userName
         WebElement textField = driver.findElement(By.id("Login"));
         textField.sendKeys(userName);
         //Setting userPassword
         textField = driver.findElement(By.id("Password"));
         textField.sendKeys(userPassword);
-        // Click login button
-        driver.findElement(By.className("uui-button")).click();
     }
+
+    @When("^I press ([^\\\"]*) button$")
+    public void pressButtonExecute(String buttonName){
+        switch (buttonName){
+            case "Login":
+                // Click login button
+                driver.findElement(By.className("uui-button")).click();
+                break;
+            default:
+                System.err.println("No button found");
+                System.exit(0);
+        }
+    }
+
 
     @Then("^Login ([^\\\"]*)$")
     public void checkStatus(String status) throws Throwable {
         boolean isCorrect = false;
-        if(status.equals("succeeded")){
-            isCorrect = true;
+        switch (status){
+            case "succeeded":
+                isCorrect = true;
+                break;
+            case "failure":
+                isCorrect = false;
+                break;
+            default:
+                System.err.println("Wrong status.");
+                System.exit(0);
         }
         // Checking login status
         Assert.assertTrue(driver.findElement(By.cssSelector(".profile-photo span")).isDisplayed() == isCorrect);
+        driver.close();
     }
 
     private WebDriver driver;
