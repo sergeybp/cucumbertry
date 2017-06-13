@@ -6,6 +6,7 @@ import cucumber.api.java.en.When;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -79,13 +80,14 @@ public class Step {
     private WebDriver driver;
 
     private void init() {
-        System.setProperty("webdriver.gecko.driver", "/home/sergeybp/geckodriver");
-        driver = new FirefoxDriver();
+        System.setProperty("webdriver.chrome.driver", "/home/sergeybp/chromedriver");
+        driver = new ChromeDriver();
     }
 
     private void moveToMainPage(){
         // Moving to epam test site
         driver.navigate().to("https://epam.github.io/JDI/");
+        driver.manage().window().maximize();
         // Wait for page loading complete
         WebDriverWait wait = new WebDriverWait(driver, 10);
         wait.until(ExpectedConditions.elementToBeClickable(By.className("profile-photo"))).click();
