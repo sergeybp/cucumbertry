@@ -1,12 +1,10 @@
 package steps;
 
+import com.google.common.io.Files;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
-import org.openqa.selenium.By;
-import org.openqa.selenium.Dimension;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.phantomjs.PhantomJSDriver;
@@ -14,13 +12,19 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
+import ru.yandex.qatools.allure.annotations.Attachment;
+import ru.yandex.qatools.allure.annotations.Step;
+
+import java.io.File;
+import java.io.IOException;
 
 /**
  * Created by sergeybp on 05.06.17.
  */
-public class Step {
+public class Steps {
 
 
+    @Step("Opening Home page.")
     @Given("^I am on ([^\\\"]*) page$")
     public void preconditionExecute(String pageName){
         // Initialize driver
@@ -35,6 +39,7 @@ public class Step {
     }
 
 
+    @Step("Typing credentials.")
     @When("^I type credentials as ([^\\\"]*)/([^\\\"]*)$")
     public void loginExecute(String userName, String userPassword){
         WebDriverWait wait = new WebDriverWait(driver, 10);
@@ -47,6 +52,7 @@ public class Step {
         textField.sendKeys(userPassword);
     }
 
+    @Step("Pressing Login button.")
     @When("^I press ([^\\\"]*) button$")
     public void pressButtonExecute(String buttonName){
         switch (buttonName){
@@ -61,9 +67,11 @@ public class Step {
     }
 
 
+    @Step("Checking Login status.")
     @Then("^Login ([^\\\"]*)$")
     public void checkStatus(String status) throws Throwable {
         boolean isCorrect = false;
+        screenshot();
         switch (status){
             case "succeeded":
                 isCorrect = true;
@@ -89,9 +97,6 @@ public class Step {
     }
 
     private void moveToMainPage(){
-
-
-
         // Moving to epam test site
         driver.navigate().to("https://epam.github.io/JDI/");
         driver.manage().window().setSize(new Dimension(1920, 1080));
@@ -99,5 +104,12 @@ public class Step {
         WebDriverWait wait = new WebDriverWait(driver, 10);
         wait.until(ExpectedConditions.elementToBeClickable(By.className("profile-photo"))).click();
     }
+
+    @Attachment(type = "image/png")
+    public byte[] screenshot() throws IOException {
+        File scrFile = ((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);
+        return Files.toByteArray(scrFile);
+    }
+
 
 }
