@@ -4,6 +4,7 @@
     <test name="MainTests" >
         <classes>
             <class name="RunLoginTests" />
+            <class name="FakeTests"/>
         </classes>
     </test>
 </suite>
